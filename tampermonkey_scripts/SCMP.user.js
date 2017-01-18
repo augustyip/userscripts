@@ -4,7 +4,8 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://*.scmp.com/*
+// @include      http://*.scmp.com/*
+// @include      https://*.scmp.com/*
 // @grant        none
 // ==/UserScript==
 
@@ -34,7 +35,10 @@ box-shadow: 0 0 10px rgba(0,0,0,.15);
 font-weight: 700;
 line-height: normal
 }
-
+#env-switch ul {margin: 0;}
+#env-switch li {
+padding: 2px 0;
+}
 `;
     addGlobalStyle(css);
     var envSwitchList = document.createElement('div');
@@ -51,24 +55,33 @@ line-height: normal
             var protocol = window.location.protocol;
             var hostname = window.location.hostname;
             var pathname = window.location.pathname;
-            console.log(protocol);
-            console.log(hostname);
-            console.log(pathname);
+            var localDomain, devuatDomain, stagingDomain, productionDomain;
+            if (/^m./.test(hostname)) {
+                localDomain = 'm.dev-august.scmp.com';
+                devuatDomain = 'm.scmpdevuat.scmp.com';
+                stagingDomain = 'm.stag.scmp.com';
+                productionDomain = 'm.scmp.com';
+            }
+            else {
+                localDomain = 'dev-august.scmp.com';
+                devuatDomain = 'scmpdevuat.scmp.com';
+                stagingDomain = 'stag.scmp.com';
+                productionDomain = 'www.scmp.com';
+            }
+
             switch (e.target.getAttribute('data-env')){
-                case 'local':
-                    window.location.assign(protocol + '//dev-august.scmp.com' + pathname);
-                    break;
                 case 'devuat':
-                    window.location.assign(protocol + '//scmpdevuat.scmp.com' + pathname);
+                    window.location.assign(protocol + '//' + devuatDomain + pathname);
                     break;
                 case 'staging':
-                    window.location.assign(protocol + '//stag.scmp.com' + pathname);
+                    window.location.assign(protocol + '//' + stagingDomain + pathname);
                     break;
                 case 'production':
-                    window.location.assign(protocol + '//www.scmp.com' + pathname);
+                    window.location.assign(protocol + '//' + productionDomain + pathname);
                     break;
+                case 'local':
                 default:
-                    console.log(e.target.getAttribute('data-env'));
+                     window.location.assign(protocol + '//' + localDomain + pathname);
                     break;
             }
         });
