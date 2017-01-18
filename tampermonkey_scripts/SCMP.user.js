@@ -3,9 +3,9 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
-// @author       You
-// @include      http://*.scmp.com/*
-// @include      https://*.scmp.com/*
+// @author       August Yip
+// @include      /^https?:\/\/.*(dev-august|scmpdevuat|stag)\.scmp\.com\/.*$/
+// @include      /^https?://(m|www).scmp.com/*
 // @grant        none
 // ==/UserScript==
 
