@@ -16,4 +16,7 @@
     Array.prototype.forEach.call(aTags, function(el, i){
         el.removeAttribute('target');
     });
+
+    document.getElementById('silentDiv').remove();
+
 })();
